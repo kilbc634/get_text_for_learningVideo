@@ -1,0 +1,2 @@
+# get_text_for_learningVideo
+get_text_for_learningVideo
