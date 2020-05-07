@@ -16,14 +16,17 @@ ${targetText}    //*[@style="transform: translateY(-3rem);"]/div/div/span
 *** Test Cases ***
 Get text for learning video
     [Tags]    only_one
+    [Timeout]    400
     Wait Until Element Is Visible    ${playReady}
     Click Element    ${playBtn}
     Mouse Over    ${stayPoint}
-    :FOR    ${limit}    IN RANGE    9999
-    \    Wait Until Page Contains Element    ${targetText}
-    \    ${text} =    Get Text    ${targetText}
-    \    Run Keyword If    "${text}" != ""    Append To File    temp_file/temps.txt    ${text}
-    \    Wait Until Page Does Not Contain    ${text}
+    FOR    ${limit}    IN RANGE    9999
+        Wait Until Page Contains Element    ${targetText}    10
+        ${text} =    Get Text    ${targetText}
+        ${text_sub} =    Evaluate    '''${text}'''.split("\\n")[0]
+        Run Keyword If    '''${text}''' != ''    Append To File    temp_file/temps.txt    ${text}\n
+        Wait Until Page Does Not Contain    ${text_sub}
+    END
 
 *** Keywords ***
 SuiteSetup
